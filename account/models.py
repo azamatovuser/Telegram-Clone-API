@@ -42,6 +42,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=16, verbose_name=_('Phone Number'), null=True)
     image = models.ImageField(upload_to='accounts/', verbose_name=_('Account image'), null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
+    friends = models.ManyToManyField('chat.Friend', null=True, blank=True, related_name='friends')
     is_online = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False, verbose_name=_('Super user'))
     is_staff = models.BooleanField(default=False, verbose_name=_('Staff user'))

@@ -35,7 +35,7 @@ class AccountChangeForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('username', 'full_name', 'phone', 'image', 'is_superuser', 'is_staff', 'is_active')
+        fields = ('username', 'full_name', 'phone', 'image', 'friends', 'is_online', 'is_superuser', 'is_staff', 'is_active')
 
     def __init__(self, *args, **kwargs):
         super(AccountChangeForm, self).__init__(*args, **kwargs)

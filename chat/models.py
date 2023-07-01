@@ -1,3 +1,6 @@
 from django.db import models
+from account.models import Account
 
-# Create your models here.
+
+class Friend(models.Model):
+    account = models.OneToOneField(Account, on_delete=models.CASCADE)
