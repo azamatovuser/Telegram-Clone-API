@@ -31,7 +31,9 @@ class LoginSerializer(serializers.ModelSerializer):
 
     def get_tokens(self, obj):
         username = obj.get('username')
+        print(username)
         tokens = Account.objects.get(username=username).tokens
+        print(tokens)
         return tokens
 
     class Meta:
