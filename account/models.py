@@ -4,7 +4,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
-from chat.models import Friend
 
 
 class AccountManager(BaseUserManager):
@@ -43,7 +42,6 @@ class Account(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=16, verbose_name=_('Phone Number'), null=True)
     image = models.ImageField(upload_to='accounts/', verbose_name=_('Account image'), null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
-    friends = models.ManyToManyField(Friend, related_name='friends')
     is_online = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False, verbose_name=_('Super user'))
     is_staff = models.BooleanField(default=False, verbose_name=_('Staff user'))
