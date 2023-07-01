@@ -56,6 +56,6 @@ class LoginSerializer(serializers.ModelSerializer):
 class MyProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['username', 'image_tag', 'bio', 'date_created', 'date_modified']
+        fields = ['id', 'username', 'full_name', 'image_tag', 'bio', 'date_created', 'date_modified']
 
 
