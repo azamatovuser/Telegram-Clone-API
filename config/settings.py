@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tf@=u6t!v_9$xr3sirkcy1o5#f#txjm0^+#5^w0&mac4ts(h!b'
+SECRET_KEY = '@7_-(^6mf^j_7^d-*3wp&ct+=*4%0^c97b)xz*ey%+hv=-jvg@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
     'account',
     'contact',
-    'chat'
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -165,7 +166,7 @@ else:
     ]
 
 REST_FRAMEWORK = {
-     'DEFAULT_AUTHENTICATION_CLASSES': auth_list
+     'DEFAULT_AUTHENTICATION_CLASSES': auth_list,
 }
 
 SIMPLE_JWT = {
@@ -175,7 +176,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": os.environ.get('SECRET_KEY'),
+    "SIGNING_KEY": SECRET_KEY,
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
