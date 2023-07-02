@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Contact(models.Model):
     author = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     name = models.CharField(max_length=25, unique=True)
@@ -10,6 +9,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"contact of {self.name} in {self.author}"
-
-
-
