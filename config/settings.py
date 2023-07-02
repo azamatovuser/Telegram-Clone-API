@@ -169,6 +169,7 @@ else:
 
 REST_FRAMEWORK = {
      'DEFAULT_AUTHENTICATION_CLASSES': auth_list,
+     'PAGE_SIZE': 20
 }
 
 SIMPLE_JWT = {
