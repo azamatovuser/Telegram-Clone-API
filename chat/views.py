@@ -35,9 +35,9 @@ class MessageCreateAPIView(APIView):
             return Response({"detail": "created"})
         return Response({"detail": "invalid data"})
 
-    # Example of sending data
-    # {
-    #   "account":1,
-    #   "room":5,
-    #   "message":"test"
-    # }
+        # Example of sending data
+        # {
+        #   "account":1,
+        #   "room":5,
+        #   "message":"test"
+        # }
