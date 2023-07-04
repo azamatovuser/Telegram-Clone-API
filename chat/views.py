@@ -38,14 +38,14 @@ class MessageCreateAPIView(APIView):
             account = get_object_or_404(Account, id=account_id)
             room = get_object_or_404(Room, id=int(room_id))
             Message.objects.create(account=account, room=room, message=message)
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                f'room_{room.id}',
-                {
-                    'type': 'room_message',
-                    'message': message
-                }
-            )
+            # channel_layer = get_channel_layer()
+            # async_to_sync(channel_layer.group_send)(
+            #     f'room_{room.id}',
+            #     {
+            #         'type': 'room_message',
+            #         'message': message
+            #     }
+            # )
             return Response({"detail": "created"})
         return Response({"detail": "invalid data"})
 
