@@ -1,8 +1,12 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from account.models import Account
 from .models import Room, Message
 from .serializers import RoomSerializer, MessageSerializer, RoomWithMessagesSerializer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from django.shortcuts import get_object_or_404
 
 
 class RoomListCreateAPIView(generics.ListCreateAPIView):
@@ -27,17 +31,26 @@ class RoomWithMessageAPIView(generics.RetrieveAPIView):
 class MessageCreateAPIView(APIView):
     # http://127.0.0.1:8000/chat/rooms/message/create/
     def post(self, request):
-        account = request.data.get('account')
-        room = request.data.get('room')
+        account_id = request.user.id
+        room_id = request.data.get('room')
         message = request.data.get('message')
-        if message and room and account:
-            Message.objects.create(account_id=account, room_id=room, message=message)
+        if message and room_id and account_id:
+            account = get_object_or_404(Account, id=account_id)
+            room = get_object_or_404(Room, id=int(room_id))
+            Message.objects.create(account=account, room=room, message=message)
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'room_{room.id}',
+                {
+                    'type': 'room_message',
+                    'message': message
+                }
+            )
             return Response({"detail": "created"})
         return Response({"detail": "invalid data"})
 
         # Example of sending data
         # {
-        #   "account":1,
-        #   "room":5,
-        #   "message":"test"
+        #     "room": 1,
+        #     "message": "message"
         # }
