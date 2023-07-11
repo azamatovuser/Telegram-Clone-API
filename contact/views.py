@@ -1,18 +1,35 @@
-from rest_framework import serializers, generics, permissions
+from rest_framework import generics
+from rest_framework.response import Response
 from .models import Contact
+from chat.models import Message, Room
+from account.models import Account
 from .serializers import ContactSerializer
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
+from rest_framework import status
 
 
-class ContactList(generics.ListAPIView):
+class ContactListAPIView(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    pagination_class = PageNumberPagination
-    page_size = 20
-    permission_classes = [permissions.IsAuthenticated]
 
 
-class ContactCreate(generics.CreateAPIView):
+class ContactCreateGenericAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+
+class ContactCreateAPIView(APIView):
+    def post(self, request):
+        username = Account.objects.all()
+        data = request.data
+        print(3333333333, data)
+        instance = Contact.objects.all()
+        serializer = ContactSerializer(data=data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ContactRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer

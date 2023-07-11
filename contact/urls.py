@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import ContactList, ContactCreate
+from .views import ContactListAPIView, ContactRUDAPIView, ContactCreateAPIView, ContactCreateGenericAPIView
 
 urlpatterns = [
-    path('contac-list/', ContactList.as_view()),
-    path('contact-create/', ContactCreate.as_view())
+    path('list/', ContactListAPIView.as_view()),
+    path('generic/', ContactCreateGenericAPIView.as_view()),
+    path('create/', ContactCreateAPIView.as_view()),
+    path('rud/<int:pk>/', ContactRUDAPIView.as_view()),
 ]
