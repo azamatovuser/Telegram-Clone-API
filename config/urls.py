@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from chat import routing
 
 
 schema_view = get_schema_view(
@@ -44,8 +43,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('account/', include('account.urls')),
     path('contact/', include('contact.urls')),
-    path('chat/', include('chat.urls')),
-    path('ws/', include(routing.websocket_urlpatterns))
+    path('chat/', include('chat.urls'))
 ]
 
 if settings.DEBUG:

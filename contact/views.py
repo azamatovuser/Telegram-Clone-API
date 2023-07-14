@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Contact
-from chat.models import Message, Room
 from account.models import Account
 from .serializers import ContactSerializer
 from rest_framework.views import APIView

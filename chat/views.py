@@ -6,7 +6,7 @@ from .models import Room, Message
 from .serializers import RoomSerializer, MessageSerializer, RoomWithMessagesSerializer
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 
 class RoomListCreateAPIView(generics.ListCreateAPIView):
@@ -54,3 +54,7 @@ class MessageCreateAPIView(APIView):
         #     "room": 1,
         #     "message": "message"
         # }
+
+
+def lobby(request):
+    return render(request, 'lobby.html')
