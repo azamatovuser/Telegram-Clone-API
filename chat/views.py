@@ -21,6 +21,18 @@ class RoomViewSet(viewsets.ModelViewSet):
         serializer = RoomSerializer(chatroom)
         return Response(serializer.data)
 
+    def create(self, request):
+        name = request.data.get('name')
+        account_ids = request.data.get('accounts')
+
+        instance = Room.objects.create(name=name)
+
+        for account_id in account_ids:
+            account = Account.objects.get(id=account_id)
+            instance.account.add(account)
+
+        return Response({'message': 'Room is created successfully'})
+
 
 class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = RoomMessageSerializer
@@ -33,6 +45,15 @@ class MessageViewSet(viewsets.ModelViewSet):
             return Message.objects.filter(room__id=room_id).order_by("created_date")
         else:
             return self.queryset
+
+    def create(self, request):
+        account = request.user
+        message = request.data.get('message')
+        room = request.data.get('room')
+        if not account and message and room:
+            return Response({"detail": "invalid data"})
+        instance = Message.objects.create(account=account, message=message, room_id=room)
+        return Response({'message': 'Message is created successfully'})
 
 
 class RoomListCreateAPIView(generics.ListCreateAPIView):

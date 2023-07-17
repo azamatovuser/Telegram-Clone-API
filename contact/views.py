@@ -1,22 +1,29 @@
 from rest_framework import generics
-from rest_framework.response import Response
 from .models import Contact
-from account.models import Account
-from .serializers import ContactSerializer
-from rest_framework.views import APIView
-from rest_framework import status
+from .serializers import ContactSerializer, ContactCreateSerializer
 
 
 class ContactListAPIView(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+    permission_classes = []
 
 
 class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
+    serializer_class = ContactCreateSerializer
 
 
 class ContactRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+
+
+class MyContactListAPIView(generics.ListAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(account=self.request.user)
+        return qs
