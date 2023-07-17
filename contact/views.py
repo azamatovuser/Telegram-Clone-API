@@ -12,21 +12,9 @@ class ContactListAPIView(generics.ListAPIView):
     serializer_class = ContactSerializer
 
 
-class ContactCreateGenericAPIView(generics.CreateAPIView):
+class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-
-
-class ContactCreateAPIView(APIView):
-    def post(self, request):
-        username = Account.objects.all()
-        data = request.data
-        print(3333333333, data)
-        instance = Contact.objects.all()
-        serializer = ContactSerializer(data=data, instance=instance)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ContactRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
